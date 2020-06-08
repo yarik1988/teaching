@@ -1,2 +1,2 @@
-CMakeFiles/
-*.exe
+.idea/
+cmake-build-debug
