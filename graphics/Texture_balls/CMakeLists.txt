@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.16)
+project(Balls)
+set(CMAKE_CXX_STANDARD 14)
+find_package(OpenGL REQUIRED)
+add_executable(Balls main.cpp SOIL.c image_helper.c stb_image_aug.c image_DXT.c)
