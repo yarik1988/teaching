@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.16)
+project(Arrays)
+set(CMAKE_CXX_STANDARD 14)
+add_executable(determinant determinant.cpp)
+add_executable(hoar hoar.cpp)
+add_executable(inv_matr inv_matr.cpp)

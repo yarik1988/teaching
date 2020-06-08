@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.16)
+project(Combinatorics)
+set(CMAKE_CXX_STANDARD 14)
+add_executable(Combinations Combinations.cpp)
+add_executable(Partition Partition.cpp)
+add_executable(Binomial Binomial.cpp)
+add_executable(permutation permut.cpp)
+add_executable(rec_permutation permut_rec.cpp)

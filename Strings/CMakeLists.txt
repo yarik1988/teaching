@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.16)
+project(Strings)
+set(CMAKE_CXX_STANDARD 14)
+add_executable(levenstein levenstein.cpp)
+add_executable(VMask VMask.cpp)

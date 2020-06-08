@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.16)
+project(Number)
+set(CMAKE_CXX_STANDARD 14)
+add_executable(factDivisors factDivisors.cpp)
+add_executable(hamming hamming.cpp)
+add_executable(longDifference longDifference.cpp)
+add_executable(longMultiplying longMultiplying.cpp)
