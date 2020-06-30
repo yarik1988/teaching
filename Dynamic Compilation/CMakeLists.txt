@@ -9,4 +9,5 @@ if ($ENV{COMPILER} STREQUAL VS)
 endif()
 
 add_executable(dyncompile main.cpp)
+#add_library(dyncompile main.cpp)
 target_link_libraries(dyncompile libtcc)
