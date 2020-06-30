@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "D:/Painter_efforts/dyncompile_VS/main.cpp" "D:/Painter_efforts/dyncompile_VS/cmake-build-release-mingw/CMakeFiles/dyncompile.dir/main.cpp.obj"
+  "C:/GITHUB/teaching/Dynamic Compilation/main.cpp" "C:/GITHUB/teaching/Dynamic Compilation/cmake-build-release-mingw/CMakeFiles/dyncompile.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

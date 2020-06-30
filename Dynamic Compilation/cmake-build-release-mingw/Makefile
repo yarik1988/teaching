@@ -47,10 +47,10 @@ RM = "C:\Program Files\JetBrains\CLion 2020.1.1\bin\cmake\win\bin\cmake.exe" -E 
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = D:\Painter_efforts\dyncompile_VS
+CMAKE_SOURCE_DIR = "C:\GITHUB\teaching\Dynamic Compilation"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = D:\Painter_efforts\dyncompile_VS\cmake-build-release-mingw
+CMAKE_BINARY_DIR = "C:\GITHUB\teaching\Dynamic Compilation\cmake-build-release-mingw"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -79,9 +79,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Painter_efforts\dyncompile_VS\cmake-build-release-mingw\CMakeFiles D:\Painter_efforts\dyncompile_VS\cmake-build-release-mingw\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\GITHUB\teaching\Dynamic Compilation\cmake-build-release-mingw\CMakeFiles" "C:\GITHUB\teaching\Dynamic Compilation\cmake-build-release-mingw\CMakeFiles\progress.marks"
 	$(MAKE) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\Painter_efforts\dyncompile_VS\cmake-build-release-mingw\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\GITHUB\teaching\Dynamic Compilation\cmake-build-release-mingw\CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
