@@ -1,0 +1,4 @@
+"C:\Program Files\JetBrains\CLion 2020.1.1\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - MinGW Makefiles" D:\Painter_efforts\dyncompile_VS
+-- Configuring done
+-- Generating done
+-- Build files have been written to: D:/Painter_efforts/dyncompile_VS/cmake-build-release-mingw

@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/Painter_efforts/dyncompile_VS/main.cpp
+iostream
+-
+tcc/libtcc.h
+D:/Painter_efforts/dyncompile_VS/tcc/libtcc.h
+
+D:/Painter_efforts/dyncompile_VS/tcc/libtcc.h
+

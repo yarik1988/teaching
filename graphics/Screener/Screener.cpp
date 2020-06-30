@@ -1,10 +1,8 @@
 #include <GL/glew.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <algorithm>
 #include <GL/freeglut.h>
-#include <cmath>
-#include <time.h>
 #define DimX 1920
 #define DimY 1080
 
@@ -99,8 +97,8 @@ for (int j=0;j<DimY;j++)
     //arr[i][j]=cos(ic/20.0)*cos(jc/20.0);
     //arr[i][j]=((ic*ic/100)^(jc*jc/100))/1000.0;
     //arr[i][j]=ic*jc/2000.0;
-    arr[i][j]=sin((ic|jc-ic&jc)/100.0);
-    //arr[i][j]=sin((ic^jc)/100.0);
+    //arr[i][j]=sin((ic|jc-ic&jc)/100.0);
+    arr[i][j]=sin((ic^jc)/100.0);
     //arr[i][j]=0.5*sin(j/10.0)+i/100.0+0.1*rand()/(float)RAND_MAX;
     //arr[i][j]=log(fabs(ic*ic/10.0+jc)+1);
     //arr[i][j]=ic/(10*sin(jc/10.0)+20.0);
