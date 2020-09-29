@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 project(SFML)
-
 set(CMAKE_CXX_STANDARD 14)
-
 add_executable(SFML main.cpp)
-
-target_link_libraries(SFML sfml-graphics sfml-window sfml-system)
+add_definitions(-DSFML_STATIC)
+target_link_libraries(SFML sfml-graphics-s sfml-window-s sfml-system-s opengl32 winmm gdi32)
