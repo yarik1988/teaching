@@ -4,7 +4,8 @@ int main() {
     // create the window
     sf::RenderWindow window(sf::VideoMode(800, 800), "My window");
     float rad=100;
-    float angle=0.01;
+    const float init_angle_speed=0.01;
+    float angle=init_angle_speed;
     sf::ConvexShape square;
     square.setPointCount(4);
     square.setPoint(0, sf::Vector2f(-rad, -rad));
@@ -21,6 +22,16 @@ int main() {
         sf::Event event;
         while (window.pollEvent(event))
         {
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+                if (event.mouseButton.button == sf::Mouse::Left)
+                    angle=0;
+            }
+            if (event.type == sf::Event::MouseButtonReleased)
+            {
+                if (event.mouseButton.button == sf::Mouse::Left)
+                    angle=init_angle_speed;
+            }
             // "close requested" event: we close the window
             if (event.type == sf::Event::Closed)
                 window.close();
