@@ -4,13 +4,14 @@
 using namespace std;
 int n,k;
 
-void Binom(vector<int> a,int curr_elem)
+void Binom(vector<int> &a,int curr_elem)
 {
 if (curr_elem<=n&&a.size()<k)
 	{
 	Binom(a,curr_elem+1);
 	a.push_back(curr_elem);
 	Binom(a,curr_elem+1);
+	a.pop_back();
 	}
 else if (a.size()==k)
 	{
