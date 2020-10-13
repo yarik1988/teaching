@@ -42,6 +42,7 @@ typename T::size_type levenshtein_distance(const T & src, const T & dst) {
 
 int main()
 {
+	cout<<"Enter two strings!";
     std::string s1;
     std::string s2;
     cin>>s1;
