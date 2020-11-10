@@ -1,3 +1,0 @@
-C:/GITHUB/teaching/Dynamic Compilation/cmake-build-release-mingw/CMakeFiles/rebuild_cache.dir
-C:/GITHUB/teaching/Dynamic Compilation/cmake-build-release-mingw/CMakeFiles/dyncompile.dir
-C:/GITHUB/teaching/Dynamic Compilation/cmake-build-release-mingw/CMakeFiles/edit_cache.dir

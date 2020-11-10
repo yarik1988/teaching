@@ -1,3 +1,0 @@
-C:/GITHUB/teaching/Dynamic Compilation/cmake-build-visualstudio/CMakeFiles/rebuild_cache.dir
-C:/GITHUB/teaching/Dynamic Compilation/cmake-build-visualstudio/CMakeFiles/dyncompile.dir
-C:/GITHUB/teaching/Dynamic Compilation/cmake-build-visualstudio/CMakeFiles/edit_cache.dir

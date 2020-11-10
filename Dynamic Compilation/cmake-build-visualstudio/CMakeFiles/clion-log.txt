@@ -1,4 +1,0 @@
-"C:\Program Files\JetBrains\CLion 2020.1.1\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - NMake Makefiles" "C:\GITHUB\teaching\Dynamic Compilation"
--- Configuring done
--- Generating done
--- Build files have been written to: C:/GITHUB/teaching/Dynamic Compilation/cmake-build-visualstudio
