@@ -268,4 +268,23 @@ double sqrt11( unsigned long N )
 		_asm ret 8
 	}
 
+    inline float Q_inv_square_root(const float number)
+    {
+        const float x2 = number * 0.5F;
+        const float threehalfs = 1.5F;
+
+        union {
+            float f;
+            uint32_t i;
+        } conv  = { .f = number };
+        conv.i  = 0x5f3759df - ( conv.i >> 1 );
+        conv.f  *= threehalfs - ( x2 * conv.f * conv.f );
+        return conv.f;
+    }
+
+    inline float sqrt15(const float x)
+    {
+        return Q_inv_square_root(x)*x;
+    }
+
 #endif
