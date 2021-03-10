@@ -1,8 +1,9 @@
 // Graph.cpp : Defines the entry point for the console application.
 //
 
-#include <stdlib.h>
-#include <time.h>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
 #include <GL/freeglut.h>
 #include <iostream>
 #include <cmath>
