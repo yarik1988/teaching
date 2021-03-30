@@ -47,6 +47,17 @@ int main()
 
     for (int i=0;i<pattern.size();i++)
         std::cout<<pattern[i];
+    std::vector<int> pattern1;
+    int i=0;
+    while (i<pattern.size()-2)
+    {
+        if (pattern[i]==1&&pattern[i+1]==1&&pattern[i+2]==0) {pattern1.push_back(1);i+=3;}
+        if (pattern[i]==1&&pattern[i+1]==0) {pattern1.push_back(0);i+=2;}
+    }
+    std::cout<<std::endl;
+    for (int i=0;i<pattern1.size();i++)
+        std::cout<<pattern1[i];
+
     return 0;
 }
 
