@@ -57,7 +57,8 @@ int main()
     std::cout<<std::endl;
     for (int i=0;i<pattern1.size();i++)
         std::cout<<pattern1[i];
-
+	//1->110
+	//0->10
     return 0;
 }
 
