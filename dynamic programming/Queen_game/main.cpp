@@ -4,7 +4,7 @@
 
 int main()
 {
-	const int N=500;
+	const int N=200;
 	int arr[N][N];
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
@@ -18,7 +18,6 @@ int main()
 	}
 	std::vector<int> pattern;
 	int i_old=0;
-	int j_old=0;
 	for (int i = 1; i < N; i++) {
 		bool flag = true;
 		for (int j = 1; j <N; j++) {
@@ -26,9 +25,8 @@ int main()
 				arr[i][j] = 2;
 				if (i < j) {
 					std::cout << i + 1 << " " << j + 1 << "\n";
-					pattern.push_back(i+1-i_old-1);
+					pattern.push_back(i-i_old);
 					i_old=i+1;
-					j_old=j+1;
 				}
 				
 				flag = false;
@@ -44,6 +42,11 @@ int main()
 			}
 		}
 	}
+    /*for (int i=0;i<N;i++) {
+        for (int j = 0; j < N; j++)
+            std::cout<<arr[i][j]<<" ";
+           std::cout<<std::endl;
+    }*/
 
     for (int i=0;i<pattern.size();i++)
         std::cout<<pattern[i];
