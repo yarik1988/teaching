@@ -1,5 +1,5 @@
+//build string that consists of 1,2,3 only, and there are no same consecutive substrings in it.
 #include <iostream>
-
 using namespace std;
 bool prov(int pos,char *arr)
  {

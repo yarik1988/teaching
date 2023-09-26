@@ -7,21 +7,6 @@
 #include <conio.h>
 using namespace std;
 
-void insert_parameters(std::string filename,std::vector<int> &a,int &b)
-    {
-        ifstream fin;
-        fin.open(filename);
-        int i;
-        while (!fin.eof())
-            {
-            fin>>i;
-            a.push_back(i);
-            }
-        b=a.back();
-        a.pop_back();
-        fin.close();
-    }
-
 void inc_x(std::vector<int> a,int b,std::vector<int> &x,int pos)
 {
 int val=0;
@@ -64,18 +49,30 @@ return x;
 
 int main()
 {
-	std::vector<int> a;
-	int b;
-	insert_parameters("../input.txt",a,b);
+    int n;
+    std::vector<int> a;
+    int b;
+    cout<<"enter number of variables"<<endl;
+    cin>>n;
+    for (int i=0;i<n;i++) {
+        cout << "enter coefficient near variable " << i + 1<<endl;
+        int tmp;
+        cin>>tmp;
+        a.emplace_back(tmp);
+        }
+    cout << "enter free coefficient"<<endl;
+    cin>>b;
 	std::vector<int> x=solve_problem(a,b);
 	if (x.size()>0)
     {
+        string res;
         for (int i=0;i<x.size();i++)
             {
-            cout<<a[i]<<"*"<<x[i];
-            if (i<x.size()-1) cout<<"+";
+            res+=to_string(a[i]) + "*"+to_string(x[i]);
+            if (i<x.size()-1) res+="+";
             }
-        cout<<"="<<b;
+        res+="="+to_string(b);
+        cout<<res;
     }
     else cout<<"No answer";
 }
