@@ -38,6 +38,9 @@ target_link_libraries(INTERVAL_INTERSECTION freeglut opengl32 glu32)
 add_executable(TRIANGLE_SQUARE TriangleSquare.cpp)
 target_link_libraries(TRIANGLE_SQUARE freeglut opengl32 glu32)
 
+add_executable(FRAC_TREE FracTree.cpp)
+target_link_libraries(FRAC_TREE freeglut opengl32 glu32)
+
 add_executable(GRAPH Graph.cpp ${imgui})
 target_link_libraries(GRAPH freeglut opengl32 glu32 )
 

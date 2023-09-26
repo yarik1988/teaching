@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.16)
+project(dyncompile)
+set(CMAKE_CXX_STANDARD 17)
+configure_file(${CMAKE_SOURCE_DIR}/tinycc/win32/libtcc.dll ${CMAKE_CURRENT_BINARY_DIR}/libtcc.dll COPYONLY)
+link_directories(${CMAKE_SOURCE_DIR}/tinycc/win32/libtcc)
+link_directories(${CMAKE_SOURCE_DIR}/tinycc/win32)
+include_directories(${CMAKE_SOURCE_DIR}/tinycc/win32/libtcc)
+link_libraries(libtcc.dll)
+add_executable(SIMPLE_TEST main.cpp)
+add_executable(LIBTCC_TEST libtcc_test.c)
+
