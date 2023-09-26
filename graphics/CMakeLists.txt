@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 14)
 find_package(OpenGL REQUIRED)
 file(GLOB imgui "imgui/*.cpp")
 
-
 add_executable(ROTATING_SQUARE SFML_square.cpp)
 add_executable(SFML_SPRITES SFML_sprites.cpp)
 if(STATIC)
@@ -42,3 +41,4 @@ target_link_libraries(TRIANGLE_SQUARE freeglut opengl32 glu32)
 add_executable(GRAPH Graph.cpp ${imgui})
 target_link_libraries(GRAPH freeglut opengl32 glu32 )
 
+set(CMAKE_EXE_LINKER_FLAGS "-Wl,--subsystem,windows")
