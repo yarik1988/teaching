@@ -33,6 +33,7 @@ for (int i = 0; i < n; i++)
         std::cout << std::endl;
     }
 }
+
 double det(double **mat,int n)
 {
 double **a=copy_mat(mat,n);
