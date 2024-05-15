@@ -5,9 +5,6 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
-#include <assert.h>
-
 #include "libtcc.h"
 
 void handle_error(void *opaque, const char *msg)
@@ -58,30 +55,13 @@ int main(int argc, char **argv)
         fprintf(stderr, "Could not create tcc state\n");
         exit(1);
     }
-    tcc_add_include_path(s, "../tinycc/win32/include");
-    tcc_add_include_path(s, "../tinycc/include");
-    tcc_add_library_path(s,"../tinycc/win32/lib");
 
-    assert(tcc_get_error_func(s) == NULL);
-    assert(tcc_get_error_opaque(s) == NULL);
-
+    /* set custom error/warning printer */
     tcc_set_error_func(s, stderr, handle_error);
 
-    assert(tcc_get_error_func(s) == handle_error);
-    assert(tcc_get_error_opaque(s) == stderr);
+    tcc_add_include_path(s, "../tinycc/win32/include");
+    tcc_add_library_path(s,"../tinycc/win32/lib");
 
-    /* if tcclib.h and libtcc1.a are not installed, where can we find them */
-    for (i = 1; i < argc; ++i) {
-        char *a = argv[i];
-        if (a[0] == '-') {
-            if (a[1] == 'B')
-                tcc_set_lib_path(s, a+2);
-            else if (a[1] == 'I')
-                tcc_add_include_path(s, a+2);
-            else if (a[1] == 'L')
-                tcc_add_library_path(s, a+2);
-        }
-    }
 
     /* MUST BE CALLED before any compilation */
     tcc_set_output_type(s, TCC_OUTPUT_MEMORY);
@@ -95,7 +75,7 @@ int main(int argc, char **argv)
     tcc_add_symbol(s, "hello", hello);
 
     /* relocate the code */
-    if (tcc_relocate(s, TCC_RELOCATE_AUTO) < 0)
+    if (tcc_relocate(s) < 0)
         return 1;
 
     /* get entry symbol */

@@ -1,6 +1,4 @@
-[submodule "Dynamic Compilation/tinycc"]
-	path = Dynamic Compilation/tinycc
-	url = git://repo.or.cz/tinycc.git
 [submodule "dynamic_compilation/tinycc"]
 	path = dynamic_compilation/tinycc
-	url = git://repo.or.cz/tinycc.git
+	url = https://github.com/TinyCC/tinycc
+	branch = mob
