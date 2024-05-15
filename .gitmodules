@@ -1,4 +1,0 @@
-[submodule "dynamic_compilation/tinycc"]
-	path = dynamic_compilation/tinycc
-	url = https://github.com/TinyCC/tinycc
-	branch = mob
