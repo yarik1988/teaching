@@ -1,29 +1,53 @@
 cmake_minimum_required(VERSION 3.16)
 project(GRAPHICS)
-set (STATIC true) # to link statically
 set(CMAKE_CXX_STANDARD 17)
 find_package(OpenGL REQUIRED)
 file(GLOB imgui "imgui/*.cpp")
+include(FetchContent)
+set(SFML_BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+set(SFML_USE_STATIC_STD_LIBS ON CACHE BOOL "" FORCE)
+FetchContent_Declare(SFML
+        GIT_REPOSITORY https://github.com/SFML/SFML.git
+        GIT_TAG 3.0.2
+        GIT_SHALLOW ON
+        EXCLUDE_FROM_ALL
+        SYSTEM)
+
+FetchContent_Declare(ImGui
+        GIT_REPOSITORY https://github.com/ocornut/imgui.git
+        GIT_TAG master
+        GIT_SHALLOW ON
+        EXCLUDE_FROM_ALL)
+
+FetchContent_Declare(ImGui-SFML
+        GIT_REPOSITORY https://github.com/SFML/imgui-sfml.git
+        GIT_TAG master
+        GIT_SHALLOW ON
+        EXCLUDE_FROM_ALL
+        SYSTEM)
+
+FetchContent_MakeAvailable(SFML)
+FetchContent_MakeAvailable(ImGui)
+set(IMGUI_DIR ${imgui_SOURCE_DIR})
+FetchContent_MakeAvailable(ImGui-SFML)
+
+add_definitions(-DSFML_STATIC)
+add_definitions(-DFREEGLUT_STATIC)
+add_definitions(-DGLEW_STATIC)
+set(CMAKE_EXE_LINKER_FLAGS "-lwinpthread -static")
+link_libraries(opengl32 winmm gdi32)
+
 
 add_executable(ROTATING_SQUARE SFML_square.cpp)
 add_executable(SFML_SPRITES SFML_sprites.cpp)
-if(STATIC)
-    message(STATUS "STATIC_LINK")
-    add_definitions(-DSFML_STATIC)
-    add_definitions(-DFREEGLUT_STATIC)
-    add_definitions(-DGLEW_STATIC)
-    set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static")
-    link_libraries(opengl32 winmm gdi32)
-    target_link_libraries(ROTATING_SQUARE sfml-graphics-s sfml-window-s sfml-system-s opengl32 winmm gdi32)
-    target_link_libraries(SFML_SPRITES sfml-graphics-s sfml-window-s sfml-system-s opengl32 winmm gdi32)
-else()
-    message(STATUS "SHARED_LINK")
-    target_link_libraries(ROTATING_SQUARE sfml-graphics sfml-window sfml-system)
-    target_link_libraries(SFML_SPRITES sfml-graphics sfml-window sfml-system)
-endif()
+find_package(SFML 3 REQUIRED COMPONENTS Graphics Window System)
+target_link_libraries(ROTATING_SQUARE PRIVATE SFML::Graphics SFML::Window SFML::System)
+target_link_libraries(SFML_SPRITES PRIVATE SFML::Graphics SFML::Window SFML::System)
 
-add_executable(Screener Screener.cpp ${imgui})
-target_link_libraries(Screener freeglut opengl32 glew32)
+add_executable(Screener Screener.cpp glad/glad.c)
+target_link_libraries(Screener PUBLIC opengl32 SFML::Graphics SFML::Window SFML::System ImGui-SFML::ImGui-SFML)
+
+
 add_executable(3D 3D.cpp)
 target_link_libraries(3D freeglut opengl32)
 add_executable(DYN_PICT dyn_pict.cpp)
@@ -46,5 +70,3 @@ target_link_libraries(FRAC_TREE freeglut opengl32 glu32)
 
 add_executable(GRAPH Graph.cpp ${imgui})
 target_link_libraries(GRAPH freeglut opengl32 glu32 )
-
-set(CMAKE_EXE_LINKER_FLAGS "-Wl,--subsystem,windows")
