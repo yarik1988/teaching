@@ -3,62 +3,43 @@
 
 int main() {
     // create the window
-    sf::RenderWindow window(sf::VideoMode(800, 800), "My window");
-    float rad=100;
-    const float init_angle_speed=0.01;
+    sf::RenderWindow window(sf::VideoMode(sf::Vector2u(800,800), 800), "My window");
+    constexpr float side_len=100;
+    constexpr float init_angle_speed=0.01;
     float angle=init_angle_speed;
-    sf::VertexArray square(sf::Quads, 4);
-    square[0].position=sf::Vector2f(-rad/2, -rad/2);
-    square[1].position=sf::Vector2f(-rad/2, rad/2);
-    square[2].position=sf::Vector2f(rad/2, rad/2);
-    square[3].position=sf::Vector2f(rad/2, -rad/2);
+    sf::VertexArray square(sf::PrimitiveType::Triangles, 6);
+    square[0].position=sf::Vector2f(-side_len/2, -side_len/2);
+    square[1].position=sf::Vector2f(-side_len/2, side_len/2);
+    square[2].position=sf::Vector2f(side_len/2, side_len/2);
+    square[3].position=sf::Vector2f(-side_len/2, -side_len/2);
+    square[4].position=sf::Vector2f(side_len/2, -side_len/2);
+    square[5].position=sf::Vector2f(side_len/2, side_len/2);
     square[0].color=sf::Color::Red;
     square[1].color=sf::Color::Green;
     square[2].color=sf::Color::Magenta;
-    square[3].color=sf::Color::Blue;
+    square[3].color=sf::Color::Red;
+    square[4].color=sf::Color::Blue;
+    square[5].color=sf::Color::Magenta;
 
-    sf::ConvexShape square_rot;
-    square_rot.setPointCount(4);
-    square_rot.setPoint(0, sf::Vector2f(-rad, -rad));
-    square_rot.setPoint(1, sf::Vector2f(-rad, rad));
-    square_rot.setPoint(2, sf::Vector2f(rad, rad));
-    square_rot.setPoint(3, sf::Vector2f(rad, -rad));
-    square_rot.setFillColor(sf::Color(0,100,100));
-
-    sf::View view(sf::FloatRect(-2*rad,-2*rad, 4*rad, 4*rad));
+    sf::View view(sf::FloatRect(sf::Vector2f(-side_len,-side_len),sf::Vector2f(2*side_len, 2*side_len)));
     window.setView(view);
-    // run the program as long as the window is open
+    sf::Transform rotation;
     while (window.isOpen())
     {
-        // check all the window's events that were triggered since the last iteration of the loop
-        sf::Event event;
-        while (window.pollEvent(event))
+        while (const std::optional event = window.pollEvent())
         {
-            if (event.type == sf::Event::MouseButtonPressed)
-            {
-                if (event.mouseButton.button == sf::Mouse::Left)
+            if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>())
+                if (mouseButtonPressed->button == sf::Mouse::Button::Left)
                     angle=0;
-            }
-            if (event.type == sf::Event::MouseButtonReleased)
-            {
-                if (event.mouseButton.button == sf::Mouse::Left)
+            if (const auto* mouseButtonReleased = event->getIf<sf::Event::MouseButtonReleased>())
+                if (mouseButtonReleased->button == sf::Mouse::Button::Left)
                     angle=init_angle_speed;
-            }
-            // "close requested" event: we close the window
-            if (event.type == sf::Event::Closed)
+            if (event->is<sf::Event::Closed>())
                 window.close();
         }
-
-        // clear the window with black color
         window.clear(sf::Color::Black);
-
-        // draw everything here...
-        // window.draw(...);
-        square_rot.rotate(angle);
-        window.draw(square_rot);
-        window.draw(square);
-
-        // end the current frame
+        rotation.rotate(sf::degrees(angle));
+        window.draw(square,rotation);
         window.display();
     }
 
