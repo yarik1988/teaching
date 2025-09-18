@@ -32,11 +32,8 @@ set(IMGUI_DIR ${imgui_SOURCE_DIR})
 FetchContent_MakeAvailable(ImGui-SFML)
 
 add_definitions(-DSFML_STATIC)
-add_definitions(-DFREEGLUT_STATIC)
-add_definitions(-DGLEW_STATIC)
 set(CMAKE_EXE_LINKER_FLAGS "-lwinpthread -static")
 link_libraries(opengl32 winmm gdi32)
-
 
 add_executable(ROTATING_SQUARE SFML_square.cpp)
 add_executable(SFML_SPRITES SFML_sprites.cpp)
@@ -47,26 +44,5 @@ target_link_libraries(SFML_SPRITES PRIVATE SFML::Graphics SFML::Window SFML::Sys
 add_executable(Screener Screener.cpp glad/glad.c)
 target_link_libraries(Screener PUBLIC opengl32 SFML::Graphics SFML::Window SFML::System ImGui-SFML::ImGui-SFML)
 
-
-add_executable(3D 3D.cpp)
-target_link_libraries(3D freeglut opengl32)
-add_executable(DYN_PICT dyn_pict.cpp)
-target_link_libraries(DYN_PICT freeglut opengl32 glu32)
-
-add_executable(FLOODFILL FloodFill.cpp)
-target_link_libraries(FLOODFILL freeglut opengl32 glu32)
-
-add_executable(GAME_LIFE GameLife.cpp)
-target_link_libraries(GAME_LIFE freeglut opengl32 glu32)
-
-add_executable(INTERVAL_INTERSECTION IntervalIntersection.cpp)
-target_link_libraries(INTERVAL_INTERSECTION freeglut opengl32 glu32)
-
-add_executable(TRIANGLE_SQUARE TriangleSquare.cpp)
-target_link_libraries(TRIANGLE_SQUARE freeglut opengl32 glu32)
-
-add_executable(FRAC_TREE FracTree.cpp)
-target_link_libraries(FRAC_TREE freeglut opengl32 glu32)
-
-add_executable(GRAPH Graph.cpp ${imgui})
-target_link_libraries(GRAPH freeglut opengl32 glu32 )
+add_executable(FRAC_TREE_SFML FracTree_SFML.cpp)
+target_link_libraries(FRAC_TREE_SFML SFML::Graphics SFML::Window SFML::System)
