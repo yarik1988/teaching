@@ -31,6 +31,29 @@ static const binOp ops[]={
         [](int ic, int jc) {return log(fabs(ic*ic/10.0+jc)+1);},
         [](int ic, int jc) {return ic/(10*sin(jc/10.0)+20.0);},
         [](int ic, int jc) {return exp(std::abs(ic+jc)/200.0)+0.5*sin(jc/100.0)+0.5*cos(ic/100.0);},
+        [](int ic, int jc) {
+            // Scale the coordinates to a small range.
+            double x = ic / 500.0, y = jc / 500.0;
+            double cx = x, cy = y;
+            int iter = 0, max_iter = 30;
+            double zx = x, zy = y;
+
+            while (zx*zx + zy*zy < 4.0 && iter < max_iter) {
+                double xt = zx*zx - zy*zy + cx;
+                zy = 2.0*zx*zy + cy;
+                zx = xt;
+                iter++;
+            }
+
+            if (iter == max_iter) {
+                return 1.0f;
+            }
+            double mag = std::sqrt(zx*zx + zy*zy);
+            if (mag <= 0.0) mag = 1e-12;
+            double mu = iter + 1.0 - std::log(std::log(mag)) / std::log(2.0);
+            double smooth = mu / static_cast<double>(max_iter);
+            return static_cast<float>(smooth);
+            },
         };
 constexpr size_t ops_count = std::size(ops);
 int cur_op=0;
