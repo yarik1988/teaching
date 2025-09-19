@@ -42,6 +42,7 @@ FetchContent_MakeAvailable(ImGui)
 set(IMGUI_DIR ${imgui_SOURCE_DIR})
 set(IMGUI_SFML_FIND_SFML OFF CACHE BOOL "Disable find_package in ImGui-SFML, as SFML is provided by the parent project" FORCE)
 FetchContent_MakeAvailable(ImGui-SFML)
+target_compile_definitions(ImGui-SFML PRIVATE NDEBUG)
 
 add_definitions(-DSFML_STATIC)
 set(CMAKE_EXE_LINKER_FLAGS "-lwinpthread -static")
