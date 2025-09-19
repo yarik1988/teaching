@@ -272,7 +272,7 @@ int main()
         }
         ImGui::SFML::Update(window, deltaClock.restart());
         // IMGUI: Create the UI window and sliders
-        ImGui::Begin("Speed Controls"); // Create a window
+        ImGui::Begin("Controls"); // Create a window
 
         ImGui::SliderFloat("Red Speed",   &speed[0], -0.02f, 0.02f);
         ImGui::SliderFloat("Green Speed", &speed[1], -0.02f, 0.02f);
