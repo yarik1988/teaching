@@ -10,9 +10,9 @@
 #include <vector>
 #include <set>
 #include <stack>
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glut.h"
-#include "imgui/imgui_impl_opengl2.h"
+#include "imgui.h"
+#include "backends/imgui_impl_glut.h"
+#include "backends/imgui_impl_opengl2.h"
 void mouse_action(int button, int state, int x, int y);
 void mouse_move(int x,int y);
 void graph_create(int ori);
@@ -133,7 +133,7 @@ ImGui_ImplOpenGL2_NewFrame();
 ImGui_ImplGLUT_NewFrame();
 ImGui::NewFrame();
 ImGuiIO& io = ImGui::GetIO();
-if (io.KeysDown[ImGuiKey_Escape]) glutLeaveMainLoop();
+//if (io.KeysDown[ImGuiKey_Escape]) glutLeaveMainLoop();
 ImGui::Begin("MAIN TOOLBAR",nullptr,ImGuiWindowFlags_AlwaysAutoResize);
 ImGui::SliderInt("Number of vertices",&vertice_number,3,30);
 ImGui::SliderInt("Connection probability",&link_prob,0,100);

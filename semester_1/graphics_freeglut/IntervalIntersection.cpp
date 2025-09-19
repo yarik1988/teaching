@@ -1,8 +1,8 @@
-#include <stdio.h>
+#include <cstdio>
 #include <tchar.h>
 #include <GL/freeglut.h>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 int tx[4];
 int ty[4];
 int xx,yy;

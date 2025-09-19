@@ -1,8 +1,8 @@
-#include <stdio.h>
+#include <cstdio>
 #include <tchar.h>
 #include <GL/freeglut.h>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 float tx[3];
 float ty[3];
 int i=0;

@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <tchar.h>
 #include <GL/freeglut.h>
 #include <iostream>
 #include <cmath>
-#include <time.h>
+#include <ctime>
 #define DimX 50
 #define DimY 50
 int Width=600;

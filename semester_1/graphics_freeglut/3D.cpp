@@ -1,5 +1,5 @@
 #include <GL/freeglut.h>
-#include <stdlib.h>
+#include <cstdlib>
 
 static int slices = 16;
 static int stacks = 16;
@@ -94,12 +94,13 @@ static void key(unsigned char key, int x, int y)
                 stacks--;
             }
             break;
+        default: break;
     }
 
     glutPostRedisplay();
 }
 
-static void idle(void)
+static void idle()
 {
     glutPostRedisplay();
 }

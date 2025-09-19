@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.16)
 project(GRAPHICS)
 set(CMAKE_CXX_STANDARD 17)
 find_package(OpenGL REQUIRED)
-file(GLOB imgui "imgui/*.cpp")
 include(FetchContent)
 
 if(MSVC)
