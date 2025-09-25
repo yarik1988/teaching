@@ -4,6 +4,10 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(OpenGL REQUIRED)
 include(FetchContent)
 
+message(STATUS "C++ compiler id: ${CMAKE_CXX_COMPILER_ID}")
+message(STATUS "CMAKE_LINKER: ${CMAKE_LINKER}")
+message(STATUS "CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER}")
+
 if(MSVC)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
@@ -44,16 +48,52 @@ FetchContent_MakeAvailable(ImGui-SFML)
 target_compile_definitions(ImGui-SFML PRIVATE NDEBUG)
 
 add_definitions(-DSFML_STATIC)
-set(CMAKE_EXE_LINKER_FLAGS "-lwinpthread -static")
-link_libraries(opengl32 winmm gdi32)
 
+# --- Executables ---
 add_executable(ROTATING_SQUARE SFML_square.cpp)
-add_executable(SFML_SPRITES SFML_sprites.cpp)
 target_link_libraries(ROTATING_SQUARE PRIVATE SFML::Graphics SFML::Window SFML::System)
+
+add_executable(SFML_SPRITES SFML_sprites.cpp)
 target_link_libraries(SFML_SPRITES PRIVATE SFML::Graphics SFML::Window SFML::System)
 
 add_executable(Screener Screener.cpp glad/glad.c)
-target_link_libraries(Screener PUBLIC opengl32 SFML::Graphics SFML::Window SFML::System ImGui-SFML::ImGui-SFML)
+target_link_libraries(Screener PRIVATE SFML::Graphics SFML::Window SFML::System ImGui-SFML::ImGui-SFML)
 
 add_executable(FRAC_TREE_SFML FracTree_SFML.cpp)
-target_link_libraries(FRAC_TREE_SFML SFML::Graphics SFML::Window SFML::System)
+target_link_libraries(FRAC_TREE_SFML PRIVATE SFML::Graphics SFML::Window SFML::System)
+
+# --- Platform-specific settings ---
+if (WIN32)
+    # Apply MinGW static flags only when using GNU or Clang toolchains targeting Windows.
+    # Use generator-expression so this won't affect MSVC.
+    foreach(tgt ROTATING_SQUARE SFML_SPRITES Screener FRAC_TREE_SFML)
+        if (TARGET ${tgt})
+            target_link_options(${tgt} PRIVATE
+                    $<$<AND:$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>,$<PLATFORM_ID:Windows>>:
+                    -static;-static-libgcc;-static-libstdc++;-Wl,-Bstatic;-lwinpthread;-Wl,-Bdynamic
+                    >
+            )
+        endif()
+    endforeach()
+
+    # system libs (you can also add these per-target via target_link_libraries)
+    link_libraries(opengl32 winmm gdi32)
+elseif(APPLE)
+    # macOS uses frameworks
+    find_library(COREFOUNDATION_FRAMEWORK Foundation)
+    find_library(APPKIT_FRAMEWORK AppKit)
+    find_library(IOKIT_FRAMEWORK IOKit)
+    find_library(CARBON_FRAMEWORK Carbon)
+
+    link_libraries(
+            "-framework OpenGL"
+            ${COREFOUNDATION_FRAMEWORK}
+            ${APPKIT_FRAMEWORK}
+            ${IOKIT_FRAMEWORK}
+            ${CARBON_FRAMEWORK}
+    )
+elseif(UNIX)
+    # Linux: link X11, pthread, etc. if needed
+    find_package(Threads REQUIRED)
+    link_libraries(${CMAKE_THREAD_LIBS_INIT} GL X11)
+endif()
