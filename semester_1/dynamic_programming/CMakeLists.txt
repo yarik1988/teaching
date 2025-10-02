@@ -1,5 +1,5 @@
 project(Project123)
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.16)
 set(CMAKE_CXX_STANDARD 14)
 add_executable(SEQ123 seq123.cpp)
 add_executable(QUEEN_GAME queen_game.cpp)
