@@ -59,8 +59,12 @@ int main(int argc, char **argv)
     /* set custom error/warning printer */
     tcc_set_error_func(s, stderr, handle_error);
 
-    tcc_add_include_path(s, "../tinycc/win32/include");
-    tcc_add_library_path(s,"../tinycc/win32/lib");
+    char include_path[1024]; // make sure it's large enough
+    snprintf(include_path, sizeof(include_path), "%s/win32/include", TINYCC_SOURCE_DIR);
+    char lib_path[1024]; // make sure it's large enough
+    snprintf(lib_path, sizeof(lib_path), "%s/win32/lib", TINYCC_SOURCE_DIR);
+    tcc_add_include_path(s, include_path);
+    tcc_add_library_path(s,lib_path);
 
 
     /* MUST BE CALLED before any compilation */
