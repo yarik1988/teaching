@@ -311,6 +311,8 @@ int main() {
   init(arr, DimX, DimY);
   sf::Clock deltaClock;
   bool needsUpdate = false;
+  bool zoomingIn = false;
+  bool zoomingOut = false;
   while (window.isOpen()) {
     while (const std::optional event = window.pollEvent()) {
       ImGui::SFML::ProcessEvent(window, *event);
@@ -319,13 +321,21 @@ int main() {
           window.close();
         if (keyPressed->scancode == sf::Keyboard::Scan::Equal ||
             keyPressed->scancode == sf::Keyboard::Scan::NumpadPlus) {
-          zoom *= 1.1f;
-          needsUpdate = true;
+          zoomingIn = true;
         }
         if (keyPressed->scancode == sf::Keyboard::Scan::Hyphen ||
             keyPressed->scancode == sf::Keyboard::Scan::NumpadMinus) {
-          zoom /= 1.1f;
-          needsUpdate = true;
+          zoomingOut = true;
+        }
+      }
+      if (const auto *keyReleased = event->getIf<sf::Event::KeyReleased>()) {
+        if (keyReleased->scancode == sf::Keyboard::Scan::Equal ||
+            keyReleased->scancode == sf::Keyboard::Scan::NumpadPlus) {
+          zoomingIn = false;
+        }
+        if (keyReleased->scancode == sf::Keyboard::Scan::Hyphen ||
+            keyReleased->scancode == sf::Keyboard::Scan::NumpadMinus) {
+          zoomingOut = false;
         }
       }
       if (event->is<sf::Event::Closed>())
@@ -355,7 +365,27 @@ int main() {
           needsUpdate = true;
         }
       }
+      if (const auto *mouseWheelScrolled =
+              event->getIf<sf::Event::MouseWheelScrolled>()) {
+        if (mouseWheelScrolled->wheel == sf::Mouse::Wheel::Vertical &&
+            !ImGui::GetIO().WantCaptureMouse) {
+          if (mouseWheelScrolled->delta > 0)
+            zoom *= 1.05f;
+          else
+            zoom /= 1.05f;
+          needsUpdate = true;
+        }
+      }
     }
+    if (zoomingIn) {
+      zoom *= 1.02f;
+      needsUpdate = true;
+    }
+    if (zoomingOut) {
+      zoom /= 1.02f;
+      needsUpdate = true;
+    }
+
     if (needsUpdate) {
       init(arr, DimX, DimY);
       needsUpdate = false;
