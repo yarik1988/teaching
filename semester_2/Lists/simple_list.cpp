@@ -13,11 +13,16 @@ public:
 
     // Destructor: Automatically cleans up memory when the List object goes out of scope
     ~List() {
-        while (head != nullptr) {
-            const Node* tmp = head;
-            head = head->next;
-            delete tmp;
-        }
+        while (head != nullptr)
+            pop_front();
+    }
+
+    int pop_front() {
+        const Node* tmp = head;
+        head = head->next;
+        const int val = tmp->data;
+        delete tmp;
+        return val;
     }
 
     void push_front(const int data) {
