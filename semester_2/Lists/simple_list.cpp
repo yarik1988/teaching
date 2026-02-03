@@ -29,6 +29,18 @@ public:
         head = new Node(data, head);
     }
 
+    void push_back(const int data) {
+        if (head == nullptr) {
+            push_front(data);
+            return;
+        }
+        Node* tail = head;
+        while (tail->next != nullptr) {
+            tail = tail->next;
+        }
+        Node* final_tail = new Node(data);
+        tail->next = final_tail;
+    }
     void find_and_delete(const int val) {
         if (head == nullptr) return;
 
@@ -70,6 +82,8 @@ int main() {
     }
     myList.print();
     myList.find_and_delete(9);
+    myList.print();
+    myList.push_back(100);
     myList.print();
     return 0;
 }
