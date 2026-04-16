@@ -1,0 +1,7 @@
+name: sage-env
+channels:
+  - conda-forge
+dependencies:
+  - tqdm
+  - sage
+  - python=3.11

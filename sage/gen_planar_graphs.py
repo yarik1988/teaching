@@ -2,6 +2,7 @@ import os
 from sage.graphs.graph_generators import graphs
 from tqdm import tqdm
 # Use Sage's built-in generator
+os.makedirs("output_gen", exist_ok=True)
 counter=0
 iterator = graphs.planar_graphs(12,minimum_degree=5)
 for i,G in tqdm(enumerate(iterator)):
