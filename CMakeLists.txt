@@ -10,3 +10,5 @@ foreach(dir ${SEM1_DIRS})
         add_subdirectory("semester_1/${subdir}")
     endif()
 endforeach()
+
+add_subdirectory("semester_2/Lists")
