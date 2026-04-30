@@ -62,6 +62,9 @@ target_link_libraries(Screener PRIVATE SFML::Graphics SFML::Window SFML::System 
 add_executable(FRAC_TREE_SFML FracTree_SFML.cpp)
 target_link_libraries(FRAC_TREE_SFML PRIVATE SFML::Graphics SFML::Window SFML::System)
 
+add_executable(BUSY_TURTLE busy_turtle.cpp)
+target_link_libraries(BUSY_TURTLE PRIVATE SFML::Graphics SFML::Window SFML::System)
+
 add_custom_target(sem1_graphics DEPENDS ROTATING_SQUARE SFML_SPRITES Screener FRAC_TREE_SFML)
 
 # --- Platform-specific settings ---
