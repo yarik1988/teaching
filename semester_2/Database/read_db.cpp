@@ -11,7 +11,7 @@ struct stud_info
 void read_seq()
 {
     stud_info part;
-    FILE *fp=fopen("../db.dat","rb");
+    FILE *fp=fopen("db.dat","rb");
     while (!feof(fp)) {
         fread(&part, sizeof(stud_info), 1, fp);
         if (!feof(fp)) std::cout<<"Name: "<<part.name<<" Age: "<<part.age<<" Gender: "<<part.gender<<std::endl;
@@ -21,7 +21,7 @@ void read_seq()
 
 void read_all()
 {
-    FILE *fp=fopen("../db.dat","rb");
+    FILE *fp=fopen("db.dat","rb");
     fseek(fp,0,SEEK_END);
     long pos=ftell(fp);
     fseek(fp,0,SEEK_SET);

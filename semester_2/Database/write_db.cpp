@@ -11,7 +11,7 @@ struct stud_info
 int main() {
     unsigned int id=0;
     stud_info part;
-    FILE *fp=fopen("../db.dat","rb");
+    FILE *fp=fopen("db.dat","rb");
     fseek(fp,0,SEEK_END);
     long pos=ftell(fp);
     if (pos>0)
@@ -22,7 +22,7 @@ int main() {
             }
     fclose(fp);
 
-    fp=fopen("../db.dat","ab");
+    fp=fopen("db.dat","ab");
     fseek(fp,0,SEEK_END);
     while (true)
     {
