@@ -1,5 +1,6 @@
 #pragma once
 #include "Evaluator.h"
+#include <cstdint>
 #include <iostream>
 using namespace std;
 

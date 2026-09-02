@@ -12,3 +12,6 @@ foreach(dir ${SEM1_DIRS})
 endforeach()
 
 add_subdirectory("semester_2/Lists")
+
+# Must be added after semester_1: reuses the SFML built by semester_1/graphics
+add_subdirectory("STUDENT PROJECTS/reversi")

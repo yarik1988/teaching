@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
-#include <windows.h>
+#include <thread>
+#include <chrono>
 #include "BoardHelper.h"
 #include "Point.h"
 #include "Player.h"
@@ -101,7 +102,7 @@ public:
 	}
 
 	void AImove() {
-		Sleep(1000);
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		Point AImove = getPlayer().play(board);
 		move(AImove.x, AImove.y);
 	}

@@ -7,18 +7,18 @@ using namespace std;
 class MyWindow : public RenderWindow {
 public:
     static const int SIZE = 64, line_width = 4;
-    MyWindow(VideoMode mode, const String& title, Uint32 style = Style::Default, const ContextSettings& settings = ContextSettings()) : RenderWindow(mode, title, style, settings) {}
+    MyWindow(VideoMode mode, const String& title, std::uint32_t style = Style::Default, State state = State::Windowed, const ContextSettings& settings = ContextSettings()) : RenderWindow(mode, title, style, state, settings) {}
     
     void drawField() {
         RectangleShape line(Vector2f(SIZE * 8 + line_width, line_width));
         line.setFillColor(Color(105,105,105));
         for (int i = 0; i < 9; i++) {
-            line.setPosition(0, i * SIZE);
+            line.setPosition(Vector2f(0, i * SIZE));
             this->draw(line);
-            line.rotate(90);
-            line.setPosition(i * SIZE + line_width, 0);
+            line.rotate(sf::degrees(90));
+            line.setPosition(Vector2f(i * SIZE + line_width, 0));
             this->draw(line);
-            line.rotate(-90);
+            line.rotate(sf::degrees(-90));
         }
     }
 
@@ -26,7 +26,7 @@ public:
         if (!type) return;
         CircleShape shape(0.4 * SIZE);
         shape.setFillColor(type == 1 ? Color::Black : Color::White);
-        shape.setPosition(((2 * y + 1) * SIZE + line_width - 0.8 * SIZE) / 2, ((2 * x + 1) * SIZE + line_width - 0.8 * SIZE) / 2);
+        shape.setPosition(Vector2f(((2 * y + 1) * SIZE + line_width - 0.8 * SIZE) / 2, ((2 * x + 1) * SIZE + line_width - 0.8 * SIZE) / 2));
         this->draw(shape);
     }
 
@@ -35,7 +35,7 @@ public:
         shape.setOutlineThickness(line_width);
         shape.setFillColor(Color::Green);
         shape.setOutlineColor(Color(255, 140, 0));
-        shape.setPosition(((2 * y + 1) * SIZE + line_width - 0.8 * SIZE) / 2, ((2 * x + 1) * SIZE + line_width - 0.8 * SIZE) / 2);
+        shape.setPosition(Vector2f(((2 * y + 1) * SIZE + line_width - 0.8 * SIZE) / 2, ((2 * x + 1) * SIZE + line_width - 0.8 * SIZE) / 2));
         this->draw(shape);
     }
 

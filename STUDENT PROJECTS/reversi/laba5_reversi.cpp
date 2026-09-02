@@ -10,20 +10,19 @@ const int line_width = MyWindow::line_width;
 
 int main()
 {
-    MyWindow window(VideoMode(size_squre * 8 + line_width, size_squre * 8 + line_width), "SFML works!");
+    MyWindow window(VideoMode({size_squre * 8 + line_width, size_squre * 8 + line_width}), "SFML works!");
     BoardController controller;
 
     while (window.isOpen())
     {
         controller.manageTurn();
 
-        Event event;
-        while (window.pollEvent(event))
+        while (const auto event = window.pollEvent())
         {
-            if (event.type == Event::Closed)
+            if (event->is<Event::Closed>())
                 window.close();
 
-            if (Mouse::isButtonPressed(Mouse::Left) && controller.awaitForClick) {
+            if (Mouse::isButtonPressed(Mouse::Button::Left) && controller.awaitForClick) {
                 Vector2i pos = Mouse::getPosition(window);
                 int x = (int)(pos.y / size_squre), y = (int)(pos.x / size_squre);
                 controller.move(x, y);
