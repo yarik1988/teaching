@@ -16,7 +16,7 @@ using namespace std;
 
 struct dense_matrix
 {
-	double** data;
+	int** data;
 	int size;
 };
 
@@ -43,7 +43,7 @@ sparse_matrix convert_to_sparse(dense_matrix in)
 			if (in.data[i][j]!=0) {
 				res.data[0][counter]=i;
 				res.data[1][counter]=j;
-				res.data[2][counter]=round(in.data[i][j]);
+				res.data[2][counter]=in.data[i][j];
 				counter++;
 			}
 	return res;
@@ -64,9 +64,9 @@ dense_matrix generate_sparse_matrix(int size, int zero_percent)
 {
 	dense_matrix res{};
 	res.size=size;
-	res.data=new double*[size];
+	res.data=new int*[size];
 	for (int i=0;i<size;i++)
-		res.data[i]=new double[size];
+		res.data[i]=new int[size];
 
 	for (int i=0;i<size;i++)
 	{
@@ -124,52 +124,60 @@ bool is_even(vector<int> used)
  return !(count_even%2);
 }
 
-int calc_det_sparse(int index, vector<int> used, sparse_matrix& compactMatrix)
+long long calc_det_sparse(int index, vector<int> used, sparse_matrix& compactMatrix, int n)
 {
-    if (index==compactMatrix.n_cols) return is_even(used)*2-1;
+    if (index==compactMatrix.n_cols)
+    {
+        // rows without entries (e.g. trailing zero rows) never add to used
+        if ((int)used.size()!=n) return 0;
+        return is_even(used)*2-1;
+    }
     int cur_row=compactMatrix.data[0][index];
     int next_index=index;
     while (next_index<compactMatrix.n_cols&&compactMatrix.data[0][next_index]==cur_row) next_index++;
     if (next_index<compactMatrix.n_cols&&compactMatrix.data[0][next_index]!=cur_row+1) return 0;
-    int det=0;
+    long long det=0;
     for (int i=index;i<next_index;i++)
     {
        if (count(used.begin(), used.end(), compactMatrix.data[1][i])==0)
        {
             vector<int> new_used=used;
             new_used.push_back(compactMatrix.data[1][i]);
-            det+= calc_det_sparse(next_index, new_used, compactMatrix) * compactMatrix.data[2][i];
+            det+= calc_det_sparse(next_index, new_used, compactMatrix, n) * compactMatrix.data[2][i];
        }
 
     }
 return det;
 }
 
-double determinant(dense_matrix m) {
-    double det = 1.0;
-    for (int i = 0; i < m.size; i++) {
-        int pivot = i;
-        for (int j = i + 1; j < m.size; j++) {
-            if (abs(m.data[j][i]) > abs(m.data[pivot][i])) {
-                pivot = j;
+long long determinant(dense_matrix m) {
+    // fraction-free (Bareiss) elimination: the division is exact for integer matrices
+    long long prev = 1;
+    int sign = 1;
+    for (int k = 0; k < m.size; k++) {
+        int pivot = k;
+        for (int i = k + 1; i < m.size; i++) {
+            if (abs(m.data[i][k]) > abs(m.data[pivot][k])) {
+                pivot = i;
             }
         }
-        if (pivot != i) {
-            swap(m.data[i], m.data[pivot]);
-            det *= -1;
+        if (pivot != k) {
+            swap(m.data[k], m.data[pivot]);
+            sign = -sign;
         }
-        if (m.data[i][i] == 0) {
+        if (m.data[k][k] == 0) {
             return 0;
         }
-        det *= m.data[i][i];
-        for (int j = i + 1; j < m.size; j++) {
-            double factor = m.data[j][i] / m.data[i][i];
-            for (int k = i + 1; k < m.size; k++) {
-                m.data[j][k] -= factor * m.data[i][k];
+        for (int i = k + 1; i < m.size; i++) {
+            for (int j = k + 1; j < m.size; j++) {
+                long long q = (long long)m.data[i][j]*m.data[k][k]
+                            - (long long)m.data[i][k]*m.data[k][j];
+                m.data[i][j] = q / prev;
             }
         }
+        prev = m.data[k][k];
     }
-    return det;
+    return sign * m.data[m.size-1][m.size-1];
 }
 
 int main()
@@ -187,7 +195,7 @@ int main()
         cout <<"\n";
     }
     vector<int> used;
-    cout << calc_det_sparse(0, used, compactMatrix)<<endl;
+    cout << calc_det_sparse(0, used, compactMatrix, init.size)<<endl;
     cout << determinant(init)<<endl;
     return 0;
 }
