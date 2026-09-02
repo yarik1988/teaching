@@ -3,8 +3,104 @@
 #include <vector>
 #include <set>
 #include <algorithm>
-#include "aux_fun.h"
+#include <cstdlib>
+#include <ctime>
+#include <chrono>
+#include <tgmath.h>
 using namespace std;
+
+const int MATRIX_SIZE = 5;
+const int ZERO_PERCENT = 70;
+
+using namespace std;
+
+struct dense_matrix
+{
+	double** data;
+	int size;
+};
+
+struct sparse_matrix
+{
+	int* data[3];
+	int n_cols;
+};
+
+sparse_matrix convert_to_sparse(dense_matrix in)
+{
+	int num_nonzero = 0;
+	for (int i=0;i<in.size;i++)
+		for (int j=0;j<in.size;j++)
+			if (in.data[i][j]!=0) num_nonzero++;
+	sparse_matrix res{};
+	res.n_cols=num_nonzero;
+	for (auto & i : res.data)
+		i=new int[num_nonzero];
+
+	int counter=0;
+	for (int i=0;i<in.size;i++)
+		for (int j=0;j<in.size;j++)
+			if (in.data[i][j]!=0) {
+				res.data[0][counter]=i;
+				res.data[1][counter]=j;
+				res.data[2][counter]=round(in.data[i][j]);
+				counter++;
+			}
+	return res;
+}
+
+int random_nonzero()
+{
+	int value;
+	do
+	{
+		value=rand()%19-9;
+	}
+	while (value==0);
+	return value;
+}
+
+dense_matrix generate_sparse_matrix(int size, int zero_percent)
+{
+	dense_matrix res{};
+	res.size=size;
+	res.data=new double*[size];
+	for (int i=0;i<size;i++)
+		res.data[i]=new double[size];
+
+	for (int i=0;i<size;i++)
+	{
+		int forced=rand()%size;
+		for (int j=0;j<size;j++)
+		{
+			if (j!=forced && rand()%100<zero_percent)
+				res.data[i][j]=0;
+			else
+				res.data[i][j]=random_nonzero();
+		}
+	}
+
+	// make sure no column is completely zero
+	for (int j=0;j<size;j++)
+	{
+		bool has_nonzero=false;
+		for (int i=0;i<size;i++)
+			if (res.data[i][j]!=0) has_nonzero=true;
+		if (!has_nonzero)
+			res.data[rand()%size][j]=random_nonzero();
+	}
+	return res;
+}
+
+void print_matrix(dense_matrix m)
+{
+	for (int i=0;i<m.size;i++)
+	{
+		for (int j=0;j<m.size;j++)
+			cout <<" "<< m.data[i][j];
+		cout <<"\n";
+	}
+}
 
 bool is_even(vector<int> used)
 {
@@ -78,7 +174,10 @@ double determinant(dense_matrix m) {
 
 int main()
 {
-    dense_matrix init=read_matrix_from_file("../matrix5x5.txt");
+    srand((unsigned)(time(nullptr)^chrono::steady_clock::now().time_since_epoch().count()));
+    dense_matrix init=generate_sparse_matrix(MATRIX_SIZE, ZERO_PERCENT);
+    cout << "Generated matrix:\n";
+    print_matrix(init);
     sparse_matrix compactMatrix=convert_to_sparse(init);
     for (int i=0; i<3; i++)
     {

@@ -3,5 +3,4 @@ project(Sparse)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(det SparseMatrixDeterminant.cpp
-        aux_fun.h)
+add_executable(det SparseMatrixDeterminant.cpp)
