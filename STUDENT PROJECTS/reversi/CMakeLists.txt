@@ -35,23 +35,13 @@ endif()
 add_definitions(-DSFML_STATIC)
 
 # --- Executable ---
+# All classes are header-only; the only real TUs are main and the AI evaluators.
 add_executable(REVERSI
         laba5_reversi.cpp
-        MyWindow.cpp
-        Point.cpp
-        BoardController.cpp
-        BoardHelper.cpp
-        Player.cpp
-        Human.cpp
-        AIGreedy.cpp
-        AIRandom.cpp
         AIStatic.cpp
         AIGenius.cpp
         AIDynamic.cpp
-        Evaluator.cpp
-        MinMax.cpp
 )
-target_include_directories(REVERSI PRIVATE laba5_reversi)
 target_link_libraries(REVERSI PRIVATE SFML::Graphics SFML::Window SFML::System)
 
 add_custom_target(student_projects_reversi DEPENDS REVERSI)
