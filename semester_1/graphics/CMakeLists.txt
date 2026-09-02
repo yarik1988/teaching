@@ -29,12 +29,18 @@ FetchContent_Declare(ImGui
         GIT_SHALLOW ON
         EXCLUDE_FROM_ALL)
 
+# PATCH_COMMAND removes a leftover debug message(WARNING ...) in ImGui-SFML's
+# FindImGui.cmake that fires on every configure even on success
+# (see cmake/patch_imgui_sfml.cmake).
 FetchContent_Declare(ImGui-SFML
         GIT_REPOSITORY https://github.com/SFML/imgui-sfml.git
         GIT_TAG master
         GIT_SHALLOW ON
         EXCLUDE_FROM_ALL
-        SYSTEM)
+        SYSTEM
+        PATCH_COMMAND ${CMAKE_COMMAND}
+                -DPATCH_FILE=<SOURCE_DIR>/cmake/FindImGui.cmake
+                -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patch_imgui_sfml.cmake)
 
 FetchContent_MakeAvailable(SFML)
 set(SFML_DIR "${SFML_BINARY_DIR}" CACHE PATH "" FORCE)
