@@ -54,7 +54,7 @@ a[i+t][j]=kst;
 result*=-1;
 t++;
 }
-if (i+t==n) return 0;
+if (a[i][i]==0) return 0;
 
 for (int k=i+1; k<n; k++)
 {
