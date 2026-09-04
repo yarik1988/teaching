@@ -33,8 +33,6 @@ set(CMAKE_EXE_LINKER_FLAGS "-lwinpthread -static")
 link_libraries(opengl32 winmm gdi32)
 include_directories(PRIVATE ${freeglut_SOURCE_DIR}/include)
 include_directories(PRIVATE ${imgui_SOURCE_DIR} ${imgui_SOURCE_DIR}/backends)
-add_executable(3D 3D.cpp)
-target_link_libraries(3D freeglut_static opengl32)
 
 add_executable(DYN_PICT dyn_pict.cpp)
 target_link_libraries(DYN_PICT freeglut_static opengl32 glu32)
