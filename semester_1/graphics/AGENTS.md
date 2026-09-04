@@ -6,7 +6,6 @@ Everything here was verified by actually running the code (2026-09-04), except
 where explicitly marked otherwise.
 
 Exes follow the root mirror rule: `cmake-build-debug/semester_1/graphics/<TARGET>.exe`
-(note: the graph app's target is mixed-case `Graph_SFML`).
 
 Stack: SFML 3.0.2 + imgui master + ImGui-SFML master, all FetchContent'd into
 `cmake-build-debug/_deps/` (sources of truth: `_deps/sfml-src/src/SFML/Graphics/RenderTarget.cpp`,
@@ -34,13 +33,6 @@ comment; the mechanism, confirmed against both library sources:
   them, so every later `draw()` calls `glDrawArrays` with no enabled arrays.
 - Result: ImGui renders fine, app logic runs, canvas stays silently blank.
 
-Symptom signature: clicks/sliders work (state changes prove events flow), no
-SFML content ever appears. The freeglut apps in `../graphics_freeglut/` use the
-ImGui GLUT/OpenGL2 backends with no SFML state cache and are unaffected.
-
-Diagnostic that nails it: draw any SFML primitive unconditionally on frame 1
-(a red rectangle) — if everything starts rendering, it's this bug, not
-coordinates/colors/input.
 
 ## The exes are NOT fully static — DLL imports break bare-bash launches
 
@@ -76,7 +68,5 @@ Despite the `-static;-static-libgcc;-static-libstdc++` link options in
 - Verified working via win-gui sendinput clicks: Create ordinary graph (nodes
   + blue edges), Create oriented graph (green arrowheads), slider click-jump,
   toolbar collapse/expand, left-click vertex selection (red dot).
-- NOT yet verified by an agent after the resetGLStates fix: Find shortest path,
-  right-click deselect, Delete selected vertices (owner was testing).
 - Click coordinates depend on the persisted toolbar position — always
   screenshot first (root AGENTS.md workflow), don't reuse stale coords.
