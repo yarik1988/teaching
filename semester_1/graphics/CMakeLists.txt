@@ -59,14 +59,14 @@ add_definitions(-DSFML_STATIC)
 add_executable(ROTATING_SQUARE square.cpp)
 target_link_libraries(ROTATING_SQUARE PRIVATE SFML::Graphics SFML::Window SFML::System)
 
-add_executable(SFML_SPRITES Sprites.cpp)
-target_link_libraries(SFML_SPRITES PRIVATE SFML::Graphics SFML::Window SFML::System)
+add_executable(SPRITES Sprites.cpp)
+target_link_libraries(SPRITES PRIVATE SFML::Graphics SFML::Window SFML::System)
 
-add_executable(Screener Screener.cpp glad/glad.c)
-target_link_libraries(Screener PRIVATE SFML::Graphics SFML::Window SFML::System ImGui-SFML::ImGui-SFML)
+add_executable(SCREENER Screener.cpp glad/glad.c)
+target_link_libraries(SCREENER PRIVATE SFML::Graphics SFML::Window SFML::System ImGui-SFML::ImGui-SFML)
 
-add_executable(FRAC_TREE_SFML FracTree.cpp)
-target_link_libraries(FRAC_TREE_SFML PRIVATE SFML::Graphics SFML::Window SFML::System)
+add_executable(FRAC_TREE FracTree.cpp)
+target_link_libraries(FRAC_TREE PRIVATE SFML::Graphics SFML::Window SFML::System)
 
 add_executable(BUSY_TURTLE busy_turtle.cpp)
 target_link_libraries(BUSY_TURTLE PRIVATE SFML::Graphics SFML::Window SFML::System)
@@ -77,28 +77,28 @@ target_link_libraries(GAME_LIFE PRIVATE SFML::Graphics SFML::Window SFML::System
 add_executable(3D 3D.cpp)
 target_link_libraries(3D PRIVATE SFML::Window SFML::System)
 
-add_executable(Graph_SFML Graph.cpp)
-target_link_libraries(Graph_SFML PRIVATE SFML::Graphics SFML::Window SFML::System ImGui-SFML::ImGui-SFML)
+add_executable(GRAPH Graph.cpp)
+target_link_libraries(GRAPH PRIVATE SFML::Graphics SFML::Window SFML::System ImGui-SFML::ImGui-SFML)
 
-add_executable(DYN_PICT_SFML Cycloid.cpp)
-target_link_libraries(DYN_PICT_SFML PRIVATE SFML::Graphics SFML::Window SFML::System)
+add_executable(CYCLOID Cycloid.cpp)
+target_link_libraries(CYCLOID PRIVATE SFML::Graphics SFML::Window SFML::System)
 
-add_executable(FLOODFILL_SFML FloodFill.cpp)
-target_link_libraries(FLOODFILL_SFML PRIVATE SFML::Graphics SFML::Window SFML::System)
+add_executable(FLOODFILL FloodFill.cpp)
+target_link_libraries(FLOODFILL PRIVATE SFML::Graphics SFML::Window SFML::System)
 
-add_executable(INTERVAL_INTERSECTION_SFML IntervalIntersection.cpp)
-target_link_libraries(INTERVAL_INTERSECTION_SFML PRIVATE SFML::Graphics SFML::Window SFML::System)
+add_executable(INTERVAL_INTERSECTION IntervalIntersection.cpp)
+target_link_libraries(INTERVAL_INTERSECTION PRIVATE SFML::Graphics SFML::Window SFML::System)
 
-add_executable(TRIANGLE_SQUARE_SFML TriangleSquare.cpp)
-target_link_libraries(TRIANGLE_SQUARE_SFML PRIVATE SFML::Graphics SFML::Window SFML::System)
+add_executable(TRIANGLE_SQUARE TriangleSquare.cpp)
+target_link_libraries(TRIANGLE_SQUARE PRIVATE SFML::Graphics SFML::Window SFML::System)
 
-add_custom_target(sem1_graphics DEPENDS ROTATING_SQUARE SFML_SPRITES Screener FRAC_TREE_SFML BUSY_TURTLE GAME_LIFE 3D Graph_SFML DYN_PICT_SFML FLOODFILL_SFML INTERVAL_INTERSECTION_SFML TRIANGLE_SQUARE_SFML)
+add_custom_target(sem1_graphics DEPENDS ROTATING_SQUARE SPRITES SCREENER FRAC_TREE BUSY_TURTLE GAME_LIFE 3D GRAPH CYCLOID FLOODFILL INTERVAL_INTERSECTION TRIANGLE_SQUARE)
 
 # --- Platform-specific settings ---
 if (WIN32)
     # Apply MinGW static flags only when using GNU or Clang toolchains targeting Windows.
     # Use generator-expression so this won't affect MSVC.
-    foreach(tgt ROTATING_SQUARE SFML_SPRITES Screener FRAC_TREE_SFML BUSY_TURTLE GAME_LIFE 3D Graph_SFML DYN_PICT_SFML FLOODFILL_SFML INTERVAL_INTERSECTION_SFML TRIANGLE_SQUARE_SFML)
+    foreach(tgt ROTATING_SQUARE SPRITES SCREENER FRAC_TREE BUSY_TURTLE GAME_LIFE 3D GRAPH CYCLOID FLOODFILL INTERVAL_INTERSECTION TRIANGLE_SQUARE)
         if (TARGET ${tgt})
             target_link_options(${tgt} PRIVATE
                     $<$<AND:$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>,$<PLATFORM_ID:Windows>>:
