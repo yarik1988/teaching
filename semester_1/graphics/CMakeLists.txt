@@ -68,7 +68,7 @@ target_link_libraries(SCREENER PRIVATE SFML::Graphics SFML::Window SFML::System 
 add_executable(FRAC_TREE FracTree.cpp)
 target_link_libraries(FRAC_TREE PRIVATE SFML::Graphics SFML::Window SFML::System)
 
-add_executable(BUSY_TURTLE busy_turtle.cpp)
+add_executable(BUSY_TURTLE BusyTurtle.cpp)
 target_link_libraries(BUSY_TURTLE PRIVATE SFML::Graphics SFML::Window SFML::System)
 
 add_executable(GAME_LIFE GameLife.cpp)
