@@ -56,16 +56,16 @@ target_compile_definitions(ImGui-SFML PRIVATE NDEBUG)
 add_definitions(-DSFML_STATIC)
 
 # --- Executables ---
-add_executable(ROTATING_SQUARE SFML_square.cpp)
+add_executable(ROTATING_SQUARE square.cpp)
 target_link_libraries(ROTATING_SQUARE PRIVATE SFML::Graphics SFML::Window SFML::System)
 
-add_executable(SFML_SPRITES SFML_sprites.cpp)
+add_executable(SFML_SPRITES Sprites.cpp)
 target_link_libraries(SFML_SPRITES PRIVATE SFML::Graphics SFML::Window SFML::System)
 
 add_executable(Screener Screener.cpp glad/glad.c)
 target_link_libraries(Screener PRIVATE SFML::Graphics SFML::Window SFML::System ImGui-SFML::ImGui-SFML)
 
-add_executable(FRAC_TREE_SFML FracTree_SFML.cpp)
+add_executable(FRAC_TREE_SFML FracTree.cpp)
 target_link_libraries(FRAC_TREE_SFML PRIVATE SFML::Graphics SFML::Window SFML::System)
 
 add_executable(BUSY_TURTLE busy_turtle.cpp)
@@ -77,7 +77,7 @@ target_link_libraries(GAME_LIFE PRIVATE SFML::Graphics SFML::Window SFML::System
 add_executable(3D 3D.cpp)
 target_link_libraries(3D PRIVATE SFML::Window SFML::System)
 
-add_executable(Graph_SFML Graph_SFML.cpp)
+add_executable(Graph_SFML Graph.cpp)
 target_link_libraries(Graph_SFML PRIVATE SFML::Graphics SFML::Window SFML::System ImGui-SFML::ImGui-SFML)
 
 add_custom_target(sem1_graphics DEPENDS ROTATING_SQUARE SFML_SPRITES Screener FRAC_TREE_SFML BUSY_TURTLE GAME_LIFE 3D Graph_SFML)

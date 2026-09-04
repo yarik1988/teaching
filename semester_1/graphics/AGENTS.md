@@ -15,9 +15,9 @@ exes are **not** fully static — see below.
 
 ## SFML + ImGui-SFML apps must call resetGLStates() before the main loop
 
-Any app that mixes SFML drawing with ImGui-SFML (`Graph_SFML.cpp`, `Screener`)
+Any app that mixes SFML drawing with ImGui-SFML (`Graph.cpp`, `Screener`)
 must call `window.resetGLStates()` once after `ImGui::SFML::Init(window)`,
-before the event loop. The one-line fix in `Graph_SFML.cpp` carries a longer
+before the event loop. The one-line fix in `Graph.cpp` carries a longer
 comment; the mechanism, confirmed against both library sources:
 
 - SFML applies its GL state lazily on the **first** `draw()` call
