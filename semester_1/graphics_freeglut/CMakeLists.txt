@@ -29,7 +29,10 @@ add_library(imgui STATIC
 find_package(OpenGL REQUIRED)
 add_definitions(-DFREEGLUT_STATIC)
 add_definitions(-DGLEW_STATIC)
-set(CMAKE_EXE_LINKER_FLAGS "-lwinpthread -static")
+# NB: bare "-static" breaks with GCC 15.2 (CLion 2025.2 bundled MinGW):
+# the static pthread/msvcrt members it pulls reference __intrinsic_setjmpex /
+# __ms_vsnprintf from archives that are already scanned by then -> undefined refs
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 link_libraries(opengl32 winmm gdi32)
 include_directories(PRIVATE ${freeglut_SOURCE_DIR}/include)
 include_directories(PRIVATE ${imgui_SOURCE_DIR} ${imgui_SOURCE_DIR}/backends)
