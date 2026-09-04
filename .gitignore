@@ -1,5 +1,3 @@
-.claude/settings.local.json
-.codex/
 .idea/
 cmake-build-*/
 **/.cache

@@ -1,0 +1,22 @@
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
+    "ANTHROPIC_API_KEY": "",
+    "ANTHROPIC_MODEL": "anthropic/claude-opus-5",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "z-ai/glm-5.3",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "z-ai/glm-5.3-flash",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "anthropic/claude-opus-5",
+    "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "400000",
+    "CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY": "1"
+  },
+  "permissions": {
+    "allow": [
+      "mcp__clion__list_directory_tree"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "win-gui"
+  ],
+  "effortLevel": "high",
+  "enableAllProjectMcpServers": true
+}
