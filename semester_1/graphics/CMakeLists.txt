@@ -80,13 +80,25 @@ target_link_libraries(3D PRIVATE SFML::Window SFML::System)
 add_executable(Graph_SFML Graph.cpp)
 target_link_libraries(Graph_SFML PRIVATE SFML::Graphics SFML::Window SFML::System ImGui-SFML::ImGui-SFML)
 
-add_custom_target(sem1_graphics DEPENDS ROTATING_SQUARE SFML_SPRITES Screener FRAC_TREE_SFML BUSY_TURTLE GAME_LIFE 3D Graph_SFML)
+add_executable(DYN_PICT_SFML Cycloid.cpp)
+target_link_libraries(DYN_PICT_SFML PRIVATE SFML::Graphics SFML::Window SFML::System)
+
+add_executable(FLOODFILL_SFML FloodFill.cpp)
+target_link_libraries(FLOODFILL_SFML PRIVATE SFML::Graphics SFML::Window SFML::System)
+
+add_executable(INTERVAL_INTERSECTION_SFML IntervalIntersection.cpp)
+target_link_libraries(INTERVAL_INTERSECTION_SFML PRIVATE SFML::Graphics SFML::Window SFML::System)
+
+add_executable(TRIANGLE_SQUARE_SFML TriangleSquare.cpp)
+target_link_libraries(TRIANGLE_SQUARE_SFML PRIVATE SFML::Graphics SFML::Window SFML::System)
+
+add_custom_target(sem1_graphics DEPENDS ROTATING_SQUARE SFML_SPRITES Screener FRAC_TREE_SFML BUSY_TURTLE GAME_LIFE 3D Graph_SFML DYN_PICT_SFML FLOODFILL_SFML INTERVAL_INTERSECTION_SFML TRIANGLE_SQUARE_SFML)
 
 # --- Platform-specific settings ---
 if (WIN32)
     # Apply MinGW static flags only when using GNU or Clang toolchains targeting Windows.
     # Use generator-expression so this won't affect MSVC.
-    foreach(tgt ROTATING_SQUARE SFML_SPRITES Screener FRAC_TREE_SFML BUSY_TURTLE GAME_LIFE 3D Graph_SFML)
+    foreach(tgt ROTATING_SQUARE SFML_SPRITES Screener FRAC_TREE_SFML BUSY_TURTLE GAME_LIFE 3D Graph_SFML DYN_PICT_SFML FLOODFILL_SFML INTERVAL_INTERSECTION_SFML TRIANGLE_SQUARE_SFML)
         if (TARGET ${tgt})
             target_link_options(${tgt} PRIVATE
                     $<$<AND:$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>,$<PLATFORM_ID:Windows>>:

@@ -70,3 +70,24 @@ Despite the `-static;-static-libgcc;-static-libstdc++` link options in
   toolbar collapse/expand, left-click vertex selection (red dot).
 - Click coordinates depend on the persisted toolbar position — always
   screenshot first (root AGENTS.md workflow), don't reuse stale coords.
+
+## The four simple GLUT ports (no ImGui)
+
+`DYN_PICT_SFML` (`Cycloid.cpp`), `FLOODFILL_SFML` (`FloodFill.cpp`),
+`INTERVAL_INTERSECTION_SFML` (`IntervalIntersection.cpp`) and
+`TRIANGLE_SQUARE_SFML` (`TriangleSquare.cpp`) are SFML 3 ports of the remaining
+freeglut apps — static curve / click-N-points demos with no ImGui, so the
+resetGLStates rule above does not apply to them.
+
+- GLUT's `gluOrtho2D` is y-up, SFML pixels are y-down: the ports map via
+  `to_px(x, y) = {x*s + c, c - y*s}` (see each file's header comment).
+- File names drop the `_SFML` suffix (like `Graph.cpp`); target names keep it
+  (`DYN_PICT_SFML`…), because the plain names are still taken by the freeglut
+  targets in `../graphics_freeglut/CMakeLists.txt` (CMake target names are
+  global).
+- IntervalIntersection and TriangleSquare print their results to **stdout**
+  like the originals — invisible under `launch_app`; verify via the
+  bash PATH-override + redirect run from the section above.
+- Verified 2026-09-04 by running each: rosette curve; flood fill turns the
+  clicked region red; crossing segments → `intersect=1` + red point at the
+  crossing; 3 clicks → `Triangle square=45000` (base 300 × height 300 / 2).
