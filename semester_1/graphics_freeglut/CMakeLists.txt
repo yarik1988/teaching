@@ -42,9 +42,6 @@ target_link_libraries(DYN_PICT freeglut_static opengl32 glu32)
 add_executable(FLOODFILL FloodFill.cpp)
 target_link_libraries(FLOODFILL freeglut_static opengl32 glu32)
 
-add_executable(GAME_LIFE GameLife.cpp)
-target_link_libraries(GAME_LIFE freeglut_static opengl32 glu32)
-
 add_executable(INTERVAL_INTERSECTION IntervalIntersection.cpp)
 target_link_libraries(INTERVAL_INTERSECTION freeglut_static opengl32 glu32)
 

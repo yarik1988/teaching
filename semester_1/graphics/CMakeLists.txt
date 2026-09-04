@@ -71,13 +71,16 @@ target_link_libraries(FRAC_TREE_SFML PRIVATE SFML::Graphics SFML::Window SFML::S
 add_executable(BUSY_TURTLE busy_turtle.cpp)
 target_link_libraries(BUSY_TURTLE PRIVATE SFML::Graphics SFML::Window SFML::System)
 
-add_custom_target(sem1_graphics DEPENDS ROTATING_SQUARE SFML_SPRITES Screener FRAC_TREE_SFML)
+add_executable(GAME_LIFE GameLife.cpp)
+target_link_libraries(GAME_LIFE PRIVATE SFML::Graphics SFML::Window SFML::System)
+
+add_custom_target(sem1_graphics DEPENDS ROTATING_SQUARE SFML_SPRITES Screener FRAC_TREE_SFML BUSY_TURTLE GAME_LIFE)
 
 # --- Platform-specific settings ---
 if (WIN32)
     # Apply MinGW static flags only when using GNU or Clang toolchains targeting Windows.
     # Use generator-expression so this won't affect MSVC.
-    foreach(tgt ROTATING_SQUARE SFML_SPRITES Screener FRAC_TREE_SFML)
+    foreach(tgt ROTATING_SQUARE SFML_SPRITES Screener FRAC_TREE_SFML BUSY_TURTLE GAME_LIFE)
         if (TARGET ${tgt})
             target_link_options(${tgt} PRIVATE
                     $<$<AND:$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>,$<PLATFORM_ID:Windows>>:
