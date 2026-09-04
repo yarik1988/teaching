@@ -48,13 +48,13 @@ Despite the `-static;-static-libgcc;-static-libstdc++` link options in
   ```bash
   cd cmake-build-debug/semester_1/graphics
   PATH="/c/Program Files/JetBrains/CLion 2025.2.1/bin/mingw/bin:$PATH" \
-    ./Graph_SFML.exe > sfml_debug.log 2>&1   # as a background task
+    ./GRAPH.exe > sfml_debug.log 2>&1   # as a background task
   ```
 
 - Rebuilding while the app runs fails at link time (Windows file lock) —
   `close_window` before `cmake --build`.
 
-## Graph_SFML (port of ../graphics_freeglut/Graph.cpp)
+## GRAPH (Graph.cpp — port of the former ../graphics_freeglut/Graph.cpp)
 
 - Window "Graph application", 800x800 client at screen (700,100).
 - Coordinate model: graph space is 0..100 (`gl_width`/`gl_height`);
@@ -71,23 +71,21 @@ Despite the `-static;-static-libgcc;-static-libstdc++` link options in
 - Click coordinates depend on the persisted toolbar position — always
   screenshot first (root AGENTS.md workflow), don't reuse stale coords.
 
-## The four simple GLUT ports (no ImGui)
+## The four simple ports (no ImGui)
 
-`DYN_PICT_SFML` (`Cycloid.cpp`), `FLOODFILL_SFML` (`FloodFill.cpp`),
-`INTERVAL_INTERSECTION_SFML` (`IntervalIntersection.cpp`) and
-`TRIANGLE_SQUARE_SFML` (`TriangleSquare.cpp`) are SFML 3 ports of the remaining
-freeglut apps — static curve / click-N-points demos with no ImGui, so the
-resetGLStates rule above does not apply to them.
+`CYCLOID` (`Cycloid.cpp`), `FLOODFILL` (`FloodFill.cpp`),
+`INTERVAL_INTERSECTION` (`IntervalIntersection.cpp`) and
+`TRIANGLE_SQUARE` (`TriangleSquare.cpp`) are SFML 3 ports of the former
+freeglut apps (folder deleted 2026-09-04) — static curve / click-N-points
+demos with no ImGui, so the resetGLStates rule above does not apply to them.
 
 - GLUT's `gluOrtho2D` is y-up, SFML pixels are y-down: the ports map via
   `to_px(x, y) = {x*s + c, c - y*s}` (see each file's header comment).
-- File names drop the `_SFML` suffix (like `Graph.cpp`); target names keep it
-  (`DYN_PICT_SFML`…), because the plain names are still taken by the freeglut
-  targets in `../graphics_freeglut/CMakeLists.txt` (CMake target names are
-  global).
 - IntervalIntersection and TriangleSquare print their results to **stdout**
-  like the originals — invisible under `launch_app`; verify via the
+  like their GLUT originals — invisible under `launch_app`; verify via the
   bash PATH-override + redirect run from the section above.
 - Verified 2026-09-04 by running each: rosette curve; flood fill turns the
   clicked region red; crossing segments → `intersect=1` + red point at the
   crossing; 3 clicks → `Triangle square=45000` (base 300 × height 300 / 2).
+  (Runs predate win-gui `click_sequence`; `click_sequence` itself was verified
+  on FloodFill — two cells flooded red from one MCP call.)

@@ -83,6 +83,13 @@ tools `mcp__win-gui__*`:
   screenshot_window). `method="sendinput"` (default) moves the real cursor and
   activates the window; `method="postmessage"` clicks without stealing focus —
   works for freeglut/ImGui apps
+- `click_sequence([...], window=...)` — several clicks in ONE call (saves a
+  model round-trip per click): `[{"x":158,"y":431},{"x":458,"y":231,"button":"right"}]`,
+  optional per-click `"double": true`; `inter_click_ms` default 150 (min 50 so
+  same-spot pairs aren't read as double-clicks); aborts and reports if the
+  window moves mid-sequence; `out_path` captures a screenshot after the last
+  click. Use for pre-planned geometric sequences (click-N-points demos);
+  stay with single `click` when the next point depends on what's on screen
 - `drag(x1,y1,x2,y2, ...)` — e.g. move a graph vertex; `key("enter")`,
   `activate_window`, `list_windows`, `close_window` (WM_CLOSE, force-kills
   after 2 s)

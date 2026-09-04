@@ -1,7 +1,7 @@
 # win-gui MCP server
 # Launch/inspect/interact with Windows GUI apps (OpenGL, freeglut, SFML, ...).
-# Tools: list_windows, launch_app, screenshot_window, click, drag, key,
-#        activate_window, close_window
+# Tools: list_windows, launch_app, screenshot_window, click, click_sequence,
+#        drag, key, activate_window, close_window
 # Screenshots use PrintWindow(PW_RENDERFULLCONTENT) -> works for background
 # windows; falls back to client-area BitBlt if the capture comes back black.
 # Input uses SendInput (needs foreground) or PostMessage (no focus steal).
@@ -327,13 +327,8 @@ def launch_app(exe_path: str, args: list[str] = None, cwd: str = "",
             "window": win, "found": win is not None}
 
 
-@server.tool()
-def screenshot_window(window: str = "", out_path: str = "") -> dict:
-    """Capture a window to a PNG (PrintWindow; captures background windows too).
-    Returns the image path (view it with the Read tool), sizes, and
-    client_offset_in_window so click(x, y, space='window') can target pixels
-    seen in the screenshot."""
-    hwnd, info = _resolve_hwnd(window)
+def _capture(hwnd, out_path):
+    """Screenshot machinery shared by screenshot_window and click_sequence."""
     g = _geo(hwnd)
     w, h = g["window_size"]
     img, ok = _shot_printwindow(hwnd, w, h)
@@ -351,19 +346,22 @@ def screenshot_window(window: str = "", out_path: str = "") -> dict:
         g["client_offset_in_window"] = [0, 0]
     path = out_path or _default_shot_path()
     img.save(path)
-    return {"path": path, "method": method, "title": info["title"] if info else
-            (win32gui.GetWindowText(hwnd) if hwnd else ""), "hwnd": hwnd, **g}
+    return {"path": path, "method": method,
+            "title": win32gui.GetWindowText(hwnd), "hwnd": hwnd, **g}
 
 
 @server.tool()
-def click(x: float, y: float, button: str = "left", window: str = "",
-          space: str = "window", method: str = "sendinput",
-          double: bool = False) -> dict:
-    """Click at (x, y). space='window' matches screenshot pixel coordinates;
-    space='client' is relative to the client area. method='sendinput' moves the
-    real cursor (activates the window); method='postmessage' posts mouse
-    messages without stealing focus (works for many GLUT/Win32 apps)."""
+def screenshot_window(window: str = "", out_path: str = "") -> dict:
+    """Capture a window to a PNG (PrintWindow; captures background windows too).
+    Returns the image path (view it with the Read tool), sizes, and
+    client_offset_in_window so click(x, y, space='window') can target pixels
+    seen in the screenshot."""
     hwnd, _ = _resolve_hwnd(window)
+    return _capture(hwnd, out_path)
+
+
+def _click_once(hwnd, x, y, button, space, method, double=False):
+    """One click; shared by click and click_sequence."""
     cx, cy = _to_client_point(hwnd, x, y, space)
     if method == "postmessage":
         MK = {"left": 0x0001, "right": 0x0002, "middle": 0x0010}[button]
@@ -396,6 +394,64 @@ def click(x: float, y: float, button: str = "left", window: str = "",
         time.sleep(0.08)
     return {"ok": True, "method": "sendinput", "screen": [px, py],
             "client": [cx, cy], "hwnd": hwnd}
+
+
+@server.tool()
+def click(x: float, y: float, button: str = "left", window: str = "",
+          space: str = "window", method: str = "sendinput",
+          double: bool = False) -> dict:
+    """Click at (x, y). space='window' matches screenshot pixel coordinates;
+    space='client' is relative to the client area. method='sendinput' moves the
+    real cursor (activates the window); method='postmessage' posts mouse
+    messages without stealing focus (works for many GLUT/Win32 apps)."""
+    hwnd, _ = _resolve_hwnd(window)
+    return _click_once(hwnd, x, y, button, space, method, double)
+
+
+@server.tool()
+def click_sequence(clicks: list, window: str = "", space: str = "window",
+                   method: str = "sendinput", inter_click_ms: float = 150,
+                   abort_on_window_move: bool = True, out_path: str = "") -> dict:
+    """Click several points in ONE call: clicks=[{"x":158,"y":431},
+    {"x":458,"y":231,"button":"right"}, ...]; optional per-click "double": true.
+    Same space/method semantics as click. Sleeps inter_click_ms (clamped >=50)
+    between clicks so same-spot pairs aren't read as double-clicks. If the
+    window moves mid-sequence, stops there and reports instead of firing the
+    rest blindly. out_path: optional screenshot after the last click."""
+    if not isinstance(clicks, list) or not clicks:
+        return {"error": "clicks must be a non-empty list of {x, y, button?}"}
+    for c in clicks:
+        if "x" not in c or "y" not in c:
+            return {"error": f"every click needs x and y, got {c!r}"}
+        if c.get("button", "left") not in BTN:
+            return {"error": f"unknown button {c.get('button')!r}"}
+    hwnd, _ = _resolve_hwnd(window)
+    origin0 = tuple(_geo(hwnd)["client_screen_origin"])
+    done = []
+    for i, c in enumerate(clicks):
+        if i:
+            if abort_on_window_move:
+                origin = tuple(_geo(hwnd)["client_screen_origin"])
+                if origin != origin0:
+                    return {"ok": False, "aborted": True, "at_click": i,
+                            "reason": "window moved between clicks",
+                            "client_origin_before": list(origin0),
+                            "client_origin_now": list(origin),
+                            "clicks_done": done, "hwnd": hwnd}
+            time.sleep(max(inter_click_ms, 50) / 1000.0)
+        try:
+            res = _click_once(hwnd, c["x"], c["y"], c.get("button", "left"),
+                              space, method, bool(c.get("double", False)))
+        except Exception as e:
+            return {"ok": False, "aborted": True, "at_click": i, "reason": str(e),
+                    "clicks_done": done, "hwnd": hwnd}
+        res["index"] = i
+        done.append(res)
+    out = {"ok": True, "clicks": done, "hwnd": hwnd,
+           "title": win32gui.GetWindowText(hwnd)}
+    if out_path:
+        out["screenshot"] = _capture(hwnd, out_path)
+    return out
 
 
 @server.tool()
