@@ -16,15 +16,6 @@ FetchContent_Declare(ImGui
         EXCLUDE_FROM_ALL)
 
 FetchContent_MakeAvailable(freeglut)
-FetchContent_MakeAvailable(ImGui)
-
-add_library(imgui STATIC
-        ${imgui_SOURCE_DIR}/imgui.cpp
-        ${imgui_SOURCE_DIR}/imgui_draw.cpp
-        ${imgui_SOURCE_DIR}/imgui_tables.cpp
-        ${imgui_SOURCE_DIR}/imgui_widgets.cpp
-        ${imgui_SOURCE_DIR}/imgui_demo.cpp # Optional, but useful for testing
-)
 
 find_package(OpenGL REQUIRED)
 add_definitions(-DFREEGLUT_STATIC)
@@ -48,8 +39,3 @@ target_link_libraries(INTERVAL_INTERSECTION freeglut_static opengl32 glu32)
 
 add_executable(TRIANGLE_SQUARE TriangleSquare.cpp)
 target_link_libraries(TRIANGLE_SQUARE freeglut_static opengl32 glu32)
-
-add_executable(GRAPH Graph.cpp
-        ${imgui_SOURCE_DIR}/backends/imgui_impl_glut.cpp
-        ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl2.cpp)
-target_link_libraries(GRAPH imgui freeglut_static opengl32 glu32)

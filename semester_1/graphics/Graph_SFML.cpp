@@ -292,6 +292,14 @@ int main()
 
     sf::Clock deltaClock;
 
+    // SFML applies its GL state lazily on the first draw() call. drawGraph draws
+    // nothing until a graph exists, so the first ImGui::SFML::Render's
+    // pushGLStates/popGLStates would save/restore the pristine state — leaving
+    // SFML's vertex-array client state disabled while SFML's cache believes it
+    // is still enabled. Every later draw() then renders nothing (the button
+    // clicks worked, the graph just never appeared). Set the states up front:
+    window.resetGLStates();
+
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent())

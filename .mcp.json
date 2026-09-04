@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "win-gui": {
+      "command": "python.exe",
+      "args": [".claude/mcp/win_gui_server.py"]
+    }
+  }
+}
